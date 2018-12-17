@@ -21,7 +21,7 @@ router.app.use((req, res, next) => {
 	next();
 });
 
-router.app.post(`/poll-form/info`, jsonParser, (req, res) => {
+router.post(`/poll-form/info`, jsonParser, (req, res) => {
 	if (!req.body) return res.sendStatus(400);
 	// personal Information
 	let nameUser = req.body.personalInformation.name;
@@ -57,13 +57,26 @@ router.app.post(`/poll-form/info`, jsonParser, (req, res) => {
 	res.send(personalInfo);
 });
 
-router.app.get(`/poll-form/info/all`, (req, res) => {
+router.get(`/`, (req, res) => {
+	res.writeHead(200, {
+		'Content-Type': 'text/html',
+	});
+	res.write(`<main>
+	<h1>Hi, my friends!</h1>
+	<p>GET-request (All): https://server-nodejs.netlify.com/api/poll-form/info/all</p>
+	<p>GET-request (Id): https://server-nodejs.netlify.com/api/poll-form/info/:id</p>
+	<p>POST-request: https://server-nodejs.netlify.com/api/poll-form/info</p>
+	</main>`);
+	res.end();
+});
+
+router.get(`/poll-form/info/all`, (req, res) => {
 	let data = JSON.parse(fs.readFileSync(`data.json`, `utf8`));
 
 	res.send(data);
 });
 
-router.app.get(`/poll-form/info/:id`, (req, res) => {
+router.get(`/poll-form/info/:id`, (req, res) => {
 	let id = +req.params.id;
 
 	let data = JSON.parse(fs.readFileSync(`data.json`, `utf8`));
@@ -84,6 +97,7 @@ router.app.get(`/poll-form/info/:id`, (req, res) => {
 	res.send(name);
 });
 
+app.use(bodyParser.json());
 app.use(`/api`, router);
 
 module.exports = app;
