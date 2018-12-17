@@ -7,7 +7,7 @@ const app = express();
 const jsonParser = bodyParser.json();
 const router = express.Router();
 
-router.app.use((req, res, next) => {
+router.use((req, res, next) => {
 	res.setHeader(`Access-Control-Allow-Origin`, `*`);
 	res.setHeader(
 		`Access-Control-Allow-Methods`,
