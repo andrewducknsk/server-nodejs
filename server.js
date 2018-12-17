@@ -20,7 +20,66 @@ app.use((req, res, next) => {
 });
 
 app.post(`/api/poll-form/info`, jsonParser, (req, res) => {
-	res.send(req.body);
+	if (!req.body) return res.sendStatus(400);
+	// personal Information
+	let nameUser = req.body.personalInformation.name;
+	let surnameUser = req.body.personalInformation.surname;
+	// important Information
+	let favoriteNumber = req.body.importantInformation.favoriteNumber;
+	let favoriteMusician = req.body.importantInformation.favoriteMusician;
+	// additional Information
+	let favoriteColor = req.body.additionalInformation.favoriteColor;
+
+	const data = JSON.parse(fs.readFileSync(`data.json`, `utf8`));
+
+	let personalInfo = {
+		name: nameUser,
+		surname: surnameUser,
+		favoriteNumber,
+		favoriteMusician,
+		favoriteColor,
+	};
+
+	let id = Math.max.apply(null, data.map(item => item.id));
+
+	if (personalInfo.id === undefined) {
+		personalInfo.id = 1;
+	} else {
+		personalInfo.id = id + 1;
+	}
+
+	data.push(personalInfo);
+
+	fs.writeFileSync(`data.json`, JSON.stringify(data));
+
+	res.send(personalInfo);
 });
 
-app.listen(3000);
+app.get(`/api/poll-form/info/all`, (req, res) => {
+	let data = JSON.parse(fs.readFileSync(`data.json`, `utf8`));
+
+	res.send(data);
+});
+
+app.get(`/api/poll-form/info/:id`, (req, res) => {
+	let id = +req.params.id;
+
+	let data = JSON.parse(fs.readFileSync(`data.json`, `utf8`));
+
+	const user = data.filter(item => item.id === id);
+
+	const name = user
+		.map(
+			item =>
+				`<p>Name: ${item.name}</p>
+		<p>Surname: ${item.surname}</p>
+		<p>Favorite Number: ${item.favoriteNumber}</p>
+		<p>Favorite Musician: ${item.favoriteMusician}</p>
+		<p>Favorite Colors: ${item.favoriteColor.join(`, `)}</p>`
+		)
+		.join();
+
+	res.send(name);
+});
+
+// app.listen(8080);
