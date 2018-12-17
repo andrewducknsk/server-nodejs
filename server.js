@@ -1,6 +1,7 @@
 const express = require(`express`);
 const bodyParser = require(`body-parser`);
 const fs = require(`fs`);
+const serverless = require(`serverless-http`);
 
 const app = express();
 const jsonParser = bodyParser.json();
@@ -83,3 +84,6 @@ app.get(`/api/poll-form/info/:id`, (req, res) => {
 });
 
 app.listen(8080);
+
+module.exports = app;
+module.exports.handler = serverless(app);

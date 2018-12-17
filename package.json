@@ -2,17 +2,23 @@
   "name": "server",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "functions/server.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build": "netlify-lambda build express",
+    "start": "node server.js"
   },
-  "keywords": [],
+  "keywords": [
+    "netlify",
+    "express.js"
+  ],
   "author": "",
   "license": "ISC",
   "dependencies": {
     "eslint-config-prettier": "^3.3.0",
     "eslint-plugin-prettier": "^3.0.0",
     "express": "^4.16.4",
-    "prettier": "^1.15.3"
+    "netlify-lambda": "^1.1.1",
+    "prettier": "^1.15.3",
+    "serverless-http": "^1.8.0"
   }
 }
