@@ -5,8 +5,9 @@ const serverless = require(`serverless-http`);
 
 const app = express();
 const jsonParser = bodyParser.json();
+const router = express.Router();
 
-app.use((req, res, next) => {
+router.app.use((req, res, next) => {
 	res.setHeader(`Access-Control-Allow-Origin`, `*`);
 	res.setHeader(
 		`Access-Control-Allow-Methods`,
@@ -20,7 +21,7 @@ app.use((req, res, next) => {
 	next();
 });
 
-app.post(`/api/poll-form/info`, jsonParser, (req, res) => {
+router.app.post(`/poll-form/info`, jsonParser, (req, res) => {
 	if (!req.body) return res.sendStatus(400);
 	// personal Information
 	let nameUser = req.body.personalInformation.name;
@@ -56,13 +57,13 @@ app.post(`/api/poll-form/info`, jsonParser, (req, res) => {
 	res.send(personalInfo);
 });
 
-app.get(`/api/poll-form/info/all`, (req, res) => {
+router.app.get(`/poll-form/info/all`, (req, res) => {
 	let data = JSON.parse(fs.readFileSync(`data.json`, `utf8`));
 
 	res.send(data);
 });
 
-app.get(`/api/poll-form/info/:id`, (req, res) => {
+router.app.get(`/poll-form/info/:id`, (req, res) => {
 	let id = +req.params.id;
 
 	let data = JSON.parse(fs.readFileSync(`data.json`, `utf8`));
@@ -82,6 +83,8 @@ app.get(`/api/poll-form/info/:id`, (req, res) => {
 
 	res.send(name);
 });
+
+app.use(`/api`, router);
 
 app.listen(8080);
 
