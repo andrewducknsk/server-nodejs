@@ -20,6 +20,18 @@ router.use((req, res, next) => {
 	res.setHeader('Access-Control-Allow-Credentials', false);
 	next();
 });
+router.get(`/`, (req, res) => {
+	res.writeHead(200, {
+		'Content-Type': 'text/html',
+	});
+	res.write(`<main>
+	<h1>Hi, my friends!</h1>
+	<p>GET-request (All): https://server-nodejs.netlify.com/api/poll-form/info/all</p>
+	<p>GET-request (Id): https://server-nodejs.netlify.com/api/poll-form/info/:id</p>
+	<p>POST-request: https://server-nodejs.netlify.com/api/poll-form/info</p>
+	</main>`);
+	res.end();
+});
 
 router.post(`/poll-form/info`, jsonParser, (req, res) => {
 	if (!req.body) return res.sendStatus(400);
@@ -55,19 +67,6 @@ router.post(`/poll-form/info`, jsonParser, (req, res) => {
 	fs.writeFileSync(`data.json`, JSON.stringify(data));
 
 	res.send(personalInfo);
-});
-
-router.get(`/`, (req, res) => {
-	res.writeHead(200, {
-		'Content-Type': 'text/html',
-	});
-	res.write(`<main>
-	<h1>Hi, my friends!</h1>
-	<p>GET-request (All): https://server-nodejs.netlify.com/api/poll-form/info/all</p>
-	<p>GET-request (Id): https://server-nodejs.netlify.com/api/poll-form/info/:id</p>
-	<p>POST-request: https://server-nodejs.netlify.com/api/poll-form/info</p>
-	</main>`);
-	res.end();
 });
 
 router.get(`/poll-form/info/all`, (req, res) => {
