@@ -99,7 +99,6 @@ router.get(`/poll-form/info/:id`, (req, res) => {
 app.use(bodyParser.json());
 app.use(`/api`, router);
 
-module.exports = app;
 module.exports.handler = serverless(app);
 
 app.listen(8080);
