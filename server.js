@@ -82,4 +82,4 @@ app.get(`/api/poll-form/info/:id`, (req, res) => {
 	res.send(name);
 });
 
-// app.listen(8080);
+app.listen(8080);
