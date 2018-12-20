@@ -4,12 +4,11 @@
   "description": "",
   "main": "server.js",
   "scripts": {
-    "build": "netlify-lambda build express",
     "start": "node server.js"
   },
   "keywords": [
-    "netlify",
-    "express.js"
+    "server",
+    "heroku"
   ],
   "author": "",
   "license": "ISC",
@@ -21,5 +20,8 @@
     "netlify-lambda": "^1.1.1",
     "prettier": "^1.15.3",
     "serverless-http": "^1.8.0"
+  },
+  "engines": {
+    "node": "10.x"
   }
 }
