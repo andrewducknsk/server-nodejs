@@ -55,7 +55,7 @@ app.post(`/poll-form/info`, jsonParser, (req, res) => {
 
 	let id = Math.max.apply(null, data.map(item => item.id));
 
-	if (personalInfo.id === undefined) {
+	if (id === -Infinity) {
 		personalInfo.id = 1;
 	} else {
 		personalInfo.id = id + 1;
@@ -72,12 +72,23 @@ app.get(`/`, (req, res) => {
 	res.writeHead(200, {
 		'Content-Type': 'text/html',
 	});
-	res.write(`<main>
-	<h1>Hi, my friends!</h1>
-	<p>GET-request (All): https://server-nodejs.netlify.com/api/poll-form/info/all</p>
-	<p>GET-request (Id): https://server-nodejs.netlify.com/api/poll-form/info/:id</p>
-	<p>POST-request: https://server-nodejs.netlify.com/api/poll-form/info</p>
-	</main>`);
+	res.write(`<!DOCTYPE html>
+	<html lang="en">
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<meta http-equiv="X-UA-Compatible" content="ie=edge">
+		<title>Node.js Api</title>
+	</head>
+	<body>
+		<main>
+			<h1>Hi, my friends!</h1>
+			<p>GET-request (All): https://successful-brace.glitch.me/poll-form/info/all</p>
+			<p>GET-request (Id): https://successful-brace.glitch.me/poll-form/info/:id</p>
+			<p>POST-request: https://successful-brace.glitch.me/poll-form/info</p>
+		</main>
+	</body>
+	</html>`);
 	res.end();
 });
 
